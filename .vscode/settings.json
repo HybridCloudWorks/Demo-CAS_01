@@ -1,0 +1,10 @@
+{
+  "chat.promptFiles": true,
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+  "files.exclude": {
+    "infra/main.json": true
+  },
+  "[bicep]": {
+    "editor.formatOnSave": true
+  }
+}

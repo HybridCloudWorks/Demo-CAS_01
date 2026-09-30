@@ -1,0 +1,39 @@
+name: validate
+
+on:
+  pull_request:
+    paths:
+      - "infra/**"
+      - "scripts/**"
+      - ".github/workflows/validate.yml"
+  push:
+    branches: [main]
+    paths:
+      - "infra/**"
+      - "scripts/**"
+
+permissions:
+  contents: read
+
+jobs:
+  bicep:
+    name: build · lint · policy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Bicep CLI
+        run: az bicep install
+
+      - name: Build, lint, and policy checks (no deployment)
+        run: |
+          chmod +x scripts/validate.sh
+          scripts/validate.sh
+
+      - name: Upload compiled template
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: main.json
+          path: infra/main.json
+          if-no-files-found: ignore

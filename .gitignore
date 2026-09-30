@@ -1,0 +1,10 @@
+# compiled ARM output from validate scripts
+infra/main.json
+infra/**/*.json
+!infra/bicepconfig.json
+
+# local tooling
+.azure/
+*.log
+.DS_Store
+Thumbs.db
