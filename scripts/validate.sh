@@ -118,9 +118,10 @@ else
   check Microsoft.Web/sites "$(lit '.properties.siteConfig.ftpsState' '"Disabled"')" "App Service FTPS disabled"
   check Microsoft.Web/sites '(.properties.virtualNetworkSubnetId // "") != ""' "App Service VNet-integrated"
 
-  # Private endpoints: one for vault, one for blob, each with a DNS zone group
+  # Private endpoints: one for vault, one for blob, each with a DNS zone group.
+  # modules/private-endpoint.bicep takes groupId as a parameter, so the compiled groupIds hold an expression; lit() accepts it.
   for gid in vault blob; do
-    n=$(jq -r "$ALL | map(select(.type == \"Microsoft.Network/privateEndpoints\")) | map(select([.properties.privateLinkServiceConnections[]?.properties.groupIds[]?] | index(\"$gid\"))) | length" "$OUT")
+    n=$(jq -r "$ALL | map(select(.type == \"Microsoft.Network/privateEndpoints\")) | map(select([.properties.privateLinkServiceConnections[]?.properties.groupIds[]?] | any($(lit '.' "\"$gid\"")))) | length" "$OUT")
     [ "$n" != "0" ] && pass "private endpoint for groupId=$gid" || fail "no private endpoint with groupId=$gid"
   done
   n=$(res_count Microsoft.Network/privateEndpoints/privateDnsZoneGroups)

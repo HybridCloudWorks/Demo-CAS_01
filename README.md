@@ -1,4 +1,4 @@
-# agentic-azure-api
+# Demo-CAS_01: agentic Azure API baseline
 
 Demo repository for **From Cloud Architect to Agentic Architect** — The Cloud & AI Summit 2026,
 St. Charles, MO · Saul Patino.
@@ -6,6 +6,9 @@ St. Charles, MO · Saul Patino.
 > `main` is the **complete build** — the expected end state of the three live demos. The session starts
 > from the `starting-state` branch (rules, requirements, network module only) and the agent builds the rest
 > live: `git checkout starting-state`.
+
+**Status:** conference demo kit, not production software. CI (`validate`) runs build, lint and policy
+checks on every change to `infra/` or `scripts/`; nothing here is deployed.
 
 ## Purpose
 
@@ -81,3 +84,7 @@ Record the output in [`docs/validation-evidence.md`](docs/validation-evidence.md
 - [Environment diagram](docs/diagrams/environment.md)
 - [Validation evidence](docs/validation-evidence.md)
 - [Copilot instructions](.github/copilot-instructions.md)
+
+## License
+
+MIT. See [LICENSE](LICENSE).
