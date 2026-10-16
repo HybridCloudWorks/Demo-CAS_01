@@ -1,7 +1,7 @@
 // agentic-azure-api — small secure Azure API baseline
 // Composition root. Resources live in infra/modules/*; this file only wires them together.
 //
-// REFERENCE SOLUTION — the expected end state after Demo 01. Requirements: docs/requirements.md.
+// REFERENCE SOLUTION — the expected end state of all three live demos (see README). Requirements: docs/requirements.md.
 
 targetScope = 'resourceGroup'
 

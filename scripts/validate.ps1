@@ -94,8 +94,9 @@ Check 'Microsoft.Web/sites' { param($r) Lit $r.properties.siteConfig.minTlsVersi
 Check 'Microsoft.Web/sites' { param($r) Lit $r.properties.siteConfig.ftpsState 'Disabled' } 'App Service FTPS disabled'
 Check 'Microsoft.Web/sites' { param($r) -not [string]::IsNullOrEmpty($r.properties.virtualNetworkSubnetId) } 'App Service VNet-integrated'
 
+# modules/private-endpoint.bicep takes groupId as a parameter, so the compiled groupIds hold an expression; Lit accepts it.
 foreach ($gid in 'vault','blob') {
-  $pe = @(OfType 'Microsoft.Network/privateEndpoints' | Where-Object { @($_.properties.privateLinkServiceConnections | ForEach-Object { $_.properties.groupIds }) -contains $gid })
+  $pe = @(OfType 'Microsoft.Network/privateEndpoints' | Where-Object { @(@($_.properties.privateLinkServiceConnections | ForEach-Object { $_.properties.groupIds }) | Where-Object { Lit $_ $gid }).Count -gt 0 })
   if ($pe.Count -gt 0) { Pass "private endpoint for groupId=$gid" } else { Fail "no private endpoint with groupId=$gid" }
 }
 $zg = OfType 'Microsoft.Network/privateEndpoints/privateDnsZoneGroups'
